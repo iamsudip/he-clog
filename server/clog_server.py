@@ -4,12 +4,7 @@ from thrift.transport import TSocket
 from thrift.transport import TTransport
 
 from tclog import CassandraLogService
-
-
-class CassandraLogServiceHandler(object):
-    def clog(self, message):
-        # Insert logic to insert into cassandra
-        print "Received Message: ", message
+from handler import CassandraLogServiceHandler
 
 
 def start_clog_service():

@@ -35,9 +35,9 @@ class CassandraLogClient(object):
             sys.exit()
         return transport, client
 
-    def clog(self, message):
+    def clog(self, **kwargs):
         transport, client = self.new_transport()
-
+        message = json.dumps(kwargs)
         result = client.clog(message)
         transport.close()
         return result
