@@ -1,3 +1,4 @@
+import datetime
 import json
 import sys
 
@@ -8,14 +9,14 @@ from thrift.protocol import TBinaryProtocol
 from tclog import CassandraLogService
 
 
-class CassandraLogClient(object):
-    def __init__(self, hostname='localhost', port=9090, *args, **kwargs):
-        self.hostname = hostname
-        self.port = port
+class TraceLogClient(object):
+    hostname = 'localhost'
+    port = 9090
 
-    def new_transport(self):
+    @classmethod
+    def new_transport(cls):
         # Make socket
-        transport = TSocket.TSocket(self.hostname, self.port)
+        transport = TSocket.TSocket(cls.hostname, cls.port)
 
         # Buffering is critical. Raw sockets are very slow
         transport = TTransport.TFramedTransport(transport)
@@ -29,14 +30,25 @@ class CassandraLogClient(object):
         # Connect!
         try:
             transport.open()
-        except Exception, e:
-            print "Failed to connect"
+        except Exception as e:
             print e
             sys.exit()
         return transport, client
 
-    def clog(self, **kwargs):
-        transport, client = self.new_transport()
+    @classmethod
+    def log(cls, submission_id, user_id, state, run_id=None, context=None):
+        transport, client = cls.new_transport()
+        if context and not isinstance(context, dict):
+            raise Exception("Context should be of <type 'dict<string:string>'")
+        log_timestamp = datetime.datetime.now()
+        kwargs = {
+            'submission_id': submission_id,
+            'log_timestamp': log_timestamp.isoformat(),
+            'user_id': user_id,
+            'state': state,
+            'run_id': run_id,
+            'context': context,
+        }
         message = json.dumps(kwargs)
         result = client.clog(message)
         transport.close()
