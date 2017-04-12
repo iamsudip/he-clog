@@ -10,8 +10,8 @@ from tclog import CassandraLogService
 
 
 class TraceLogClient(object):
-    hostname = 'localhost'
-    port = 9090
+    hostname = 'tracelog-cassandra.hackerearth.com'
+    port = 9000
 
     @classmethod
     def new_transport(cls):

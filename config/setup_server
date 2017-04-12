@@ -1,0 +1,13 @@
+Install Cassandra: http://cassandra.apache.org/download/
+
+Install haproxy: sudo apt-get install haproxy
+
+Use haproxy.cfg -> /etc/haproxy.cfg
+
+Install supervisor: sudo apte-get install supervisor
+
+Use supervisord.conf -> /etc/supervisor/supervisord.conf
+
+Install click: sudo pip install click
+
+Install thrift usinf provided tar. ./configure -> sudo make install
