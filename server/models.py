@@ -19,7 +19,7 @@ class SubmissionTraceBySubmission(BaseModel):
     state = columns.Integer(primary_key=True)
     user_id = columns.Integer()
     run_id = columns.Integer()
-    context = columns.Text()
+    context = columns.Map(columns.Text(), columns.Text())
 
 
 class SubmissionTraceByTimestamp(BaseModel):
@@ -29,7 +29,7 @@ class SubmissionTraceByTimestamp(BaseModel):
     state = columns.Integer(primary_key=True)
     user_id = columns.Integer()
     run_id = columns.Integer()
-    context = columns.Text()
+    context = columns.Map(columns.Text(), columns.Text())
 
     @staticmethod
     def get_partition_key(datetime_obj):

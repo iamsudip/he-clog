@@ -22,6 +22,12 @@ class CassandraLogServiceHandler(object):
     def clog(self, message):
         if DEBUG: print "Received Message: ", message
         payload = json.loads(message)
+        context = payload.get(context)
+        ctx = {}
+        if context:
+            for key, value in context.iteritems():
+                ctx[unicode(key)] = unicode(value)
+        payload['context'] = ctx
         log_timestamp = dateutil.parser.parse(payload['log_timestamp'])
         payload['log_timestamp'] = log_timestamp
         SubmissionTraceBySubmission.log(**payload)

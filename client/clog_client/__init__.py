@@ -73,9 +73,6 @@ class TraceLogClient(object):
         transport, client = cls.new_transport()
         if context and not isinstance(context, dict):
             raise Exception("Context should be of <type 'dict'")
-        else:
-            context = json.dumps(context)
-
         log_timestamp = datetime.datetime.now()
         kwargs = {
             'submission_id': submission_id,
