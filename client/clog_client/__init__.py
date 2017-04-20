@@ -43,7 +43,7 @@ class SubmissionState(object):
 
 
 class TraceLogClient(object):
-    hostname = 'tracelog-cassandra.hackerearth.com'
+    hostname = 'tracelog-submission.hackerearth.com'
     port = 9000
 
     @classmethod
