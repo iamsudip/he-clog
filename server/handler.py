@@ -20,9 +20,9 @@ class CassandraLogServiceHandler(object):
         setup_connection()
 
     def clog(self, message):
-        if DEBUG: print "Received Message: ", message
+        if DEBUG: print 'Received Message: ', message
         payload = json.loads(message)
-        context = payload.get(context)
+        context = payload.get('context')
         ctx = {}
         if context:
             for key, value in context.iteritems():
