@@ -61,16 +61,15 @@ class TraceLogClient(object):
         client = CassandraLogService.Client(protocol)
 
         # Connect!
-        try:
-            transport.open()
-        except Exception as e:
-            print e
-            sys.exit()
+        transport.open()
         return transport, client
 
     @classmethod
     def log(cls, submission_id, user_id, state, run_id=None, context=None):
-        transport, client = cls.new_transport()
+        try:
+            transport, client = cls.new_transport()
+        except:
+            return
         if context and not isinstance(context, dict):
             raise Exception("Context should be of <type 'dict'")
         log_timestamp = datetime.datetime.now()
