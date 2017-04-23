@@ -1,8 +1,15 @@
+from cassandra.cluster import Cluster
+from cassandra.auth import PlainTextAuthProvider
 from cassandra.cqlengine import columns
 from cassandra.cqlengine import connection
 from cassandra.cqlengine.models import Model
 from cassandra.cqlengine.management import sync_table, drop_table
 from cassandra.cqlengine.management import create_keyspace_simple
+
+try:
+    from machine_settings import CASSANDRA_USERNAME, CASSANDRA_PASSWORD
+except ImportError:
+    raise Exception('Please create machine_settings.py with CASSANDRA_USERNAME and CASSANDRA_PASSWORD')
 
 
 class BaseModel(Model):
@@ -54,7 +61,9 @@ def create_keyspace():
 
 
 def setup_connection():
-    connection.setup(['127.0.0.1'], KEYSPACE, protocol_version=3)
+    auth_provider = PlainTextAuthProvider(
+            username=CASSANDRA_USERNAME, password=CASSANDRA_PASSWORD)
+    connection.setup(['127.0.0.1'], KEYSPACE, protocol_version=3, auth_provider=auth_provider)
 
 
 def setup_models():
