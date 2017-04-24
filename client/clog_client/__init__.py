@@ -89,7 +89,7 @@ class TraceLogClient(object):
         # Make socket
         socket = TSocket.TSocket(cls.hostname, cls.port)
 
-        socket.settimeout(5)
+        socket.setTimeout(5)
 
         # Buffering is critical. Raw sockets are very slow
         transport = TTransport.TFramedTransport(socket)
