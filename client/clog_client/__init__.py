@@ -83,13 +83,15 @@ class SubmissionState(object):
 class TraceLogClient(object):
     hostname = 'tracelog.hackerearth.com'
     port = 9000
+    timeout = 5 # In seconds
 
     @classmethod
     def new_transport(cls):
         # Make socket
         socket = TSocket.TSocket(cls.hostname, cls.port)
 
-        socket.setTimeout(5)
+        # Set timeout
+        socket.setTimeout(cls.timeout * 1000.0)
 
         # Buffering is critical. Raw sockets are very slow
         transport = TTransport.TFramedTransport(socket)
